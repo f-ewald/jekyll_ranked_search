@@ -1,0 +1,6 @@
+{
+  "word2doc": {{site.data.word2doc}},
+  "bow": {{site.data.bow}},
+  "tfidf": {{site.data.tfidf}},
+  "docs": {{site.data.docs}}
+}
