@@ -46,7 +46,8 @@ class TfidfConverter < Jekyll::Generator
     # Create vocabulary
     docs.each_with_index do |post, idx|
       content = markdown.render(post.content)
-      # Replace newlines with wide spaces
+      # Replace newlines with wide spaces and bullet points
+      # TODO: Remove trailing bullet point
       content.gsub!(/\n/, ' • ')
       # TODO: Use first n words instead of characters
       content = markdown.render(content)
