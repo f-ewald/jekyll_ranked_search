@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "set"
 require "redcarpet"
 require "redcarpet/render_strip"
@@ -46,13 +48,28 @@ class TfidfConverter < Jekyll::Generator
     # Create vocabulary
     docs.each_with_index do |post, idx|
       content = markdown.render(post.content)
+
+      # Tokenize content before applying any other transformations
+      tokenized = self.tokenize_words "#{post.data['title']} #{content}"
+
       # Replace newlines with wide spaces and bullet points
-      # TODO: Remove trailing bullet point
-      content.gsub!(/\n/, ' • ')
-      # TODO: Use first n words instead of characters
-      content = markdown.render(content)
-      content = content[..512]  # The first 512 characters of the post
+      divider = " • "
+      content.gsub!(/\n/, divider)
+
+      # Remove trailing divider
+      if content.end_with?(divider)
+        content = content[0..-4]
+      end
       
+      # Take first n words of post
+      n_words = 40
+      splitted_content = content.split(" ")
+      word_count = splitted_content.length
+      content = splitted_content[..n_words].join(" ")  # The first n words of the post
+      if word_count > n_words
+        content += "..."
+      end
+
       processed_docs.push({
         title: post.data['title'],
         url: post.url,
@@ -60,7 +77,6 @@ class TfidfConverter < Jekyll::Generator
         text: content,
       })
 
-      tokenized = self.tokenize_words "#{post.data['title']} #{content}"
       token_seen = false
       tokenized.each do |word|
         if !bow.include?(word)
@@ -94,8 +110,6 @@ class TfidfConverter < Jekyll::Generator
     tfidf = {}
     tf.each do |idx, freq|
       token_idx, doc_idx = idx.split(',').map { |i| i.to_i }
-      # puts "token idx: #{token_idx}"
-      # puts df
       _idf = Math.log(total_docs / df[token_idx] + 0.00001)
 
       # Exponential decay over time (boost newer posts)
@@ -109,17 +123,18 @@ class TfidfConverter < Jekyll::Generator
   end
 
   def tokenize_words(doc)
-    # TODO: Better tokenization
+    # Remove stopwords from document
     @stopwords ||= self.load_stopwords
-    # replace_chars = /[-_:;@#,¿?¡!'"“”‘’`\/\(\)\[\]\{\}]/i
+
+    # Split document into tokens
     splitted_doc = doc.strip.downcase.split
+
+    # Remove stopwords in place
     splitted_doc.delete_if { |word| @stopwords.include?(word) }
 
-
     # Remove special characters (only at beginning and end)
-    splitted_doc.map! { |word| word.gsub(/[^a-z0-9\s]/i, '') }
+    splitted_doc.map! { |word| word.gsub(/[^a-z0-9_\/\-\s]/i, '') }
 
-    # splitted_doc.map! { |word| word.tr("@#!?.:;[]()", "") }
     splitted_doc
   end
 
@@ -153,5 +168,4 @@ class TfidfConverter < Jekyll::Generator
     end
     page
   end
-
 end
