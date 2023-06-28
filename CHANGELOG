@@ -1,0 +1,6 @@
+# 0.0.3
+* Added support for lazy data loading via `lazy` attribute.
+* Performance improvement for placeholder calculation
+
+# 0.0.2
+* First working release
