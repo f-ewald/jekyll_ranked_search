@@ -4,7 +4,7 @@ A plugin for Jekyll to search for all posts and rank them by relevance. Relevanc
 
 ## Installation
 
-Install the plugin via `bundler` in the latest version:
+Install the plugin via `bundler` from [rubygems](https://rubygems.org/gems/jekyll_ranked_search) in the latest version:
 
 ```shell
 bundle add jekyll_ranked_search
