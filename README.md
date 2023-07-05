@@ -41,7 +41,7 @@ The following settings can be set on the `<search-box>` component on the fronten
 |Parameter|Description                                    |Type     |Default  |Possible Values                             |
 |---------|-----------------------------------------------|---------|---------|--------------------------------------------|
 | `lazy`  | Lazy load results on first focus of search box| Boolean | `false` | `false` ,`true` (see important note below) |
-| `max-results` | Maximum number of resulsts to display   | Number  | `8`     | `[1, inf)`
+| `max-results` | Maximum number of results to display    | Number  | `8`     | `[1, inf)`
 
 Example:
 
