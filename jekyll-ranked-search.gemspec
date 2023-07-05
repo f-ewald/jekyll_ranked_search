@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "jekyll_ranked_search"
-  s.version     = "0.0.3"
+  s.version     = "0.0.4"
   s.summary     = "TF-IDF offline search for Jekyll posts"
   s.description = "Offline search plugin for Jekyll posts using TF-IDF"
   s.authors     = ["Friedrich Ewald"]

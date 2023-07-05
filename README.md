@@ -41,12 +41,14 @@ The following settings can be set on the `<search-box>` component on the fronten
 |Parameter|Description                                    |Type     |Default  |Possible Values                             |
 |---------|-----------------------------------------------|---------|---------|--------------------------------------------|
 | `lazy`  | Lazy load results on first focus of search box| Boolean | `false` | `false` ,`true` (see important note below) |
+| `max-results` | Maximum number of resulsts to display   | Number  | `8`     | `[1, inf)`
 
 Example:
 
 ```html
 <search-box
-  lazy="true"></search-box>
+  lazy="true"
+  max-results=4></search-box>
 ```
 
 **Important** The presence of a boolean attribute is interpreted as `true`. Therefore, if you wish to set it to false, remove the attribute completely instead of setting it to `false`.
