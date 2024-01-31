@@ -122,15 +122,26 @@ class TfidfConverter < Jekyll::Generator
     site.data['tfidf'] = tfidf.to_json
   end
 
+  # Tokenize document by removing special characters and splitting
+  # the document into tokens.
+  # @param [String] doc The document to tokenize
+  # @return [Array<String>] individual tokens/words
   def tokenize_words(doc)
     # Remove stopwords from document
     @stopwords ||= self.load_stopwords
+
+    # TODO: Remove Liquid tags via regex
 
     # Split document into tokens
     splitted_doc = doc.strip.downcase.split
 
     # Remove stopwords in place
-    splitted_doc.delete_if { |word| @stopwords.include?(word) }
+    splitted_doc.delete_if do |word|
+      if @stopwords.include?(word)
+        Jekyll.logger.debug "Removing stopword:", word
+      end
+      @stopwords.include?(word)
+    end
 
     # Remove special characters (only at beginning and end)
     splitted_doc.map! { |word| word.gsub(/[^a-z0-9_\/\-\s]/i, '') }
@@ -138,11 +149,12 @@ class TfidfConverter < Jekyll::Generator
     splitted_doc
   end
 
-  # Load stopwords from file
+  # Load english stopwords from file
+  # @return [Array<String>] the stopwords
   def load_stopwords
     Jekyll.logger.info "Loading stopwords"
     stopwords = Set.new
-    File.open(File.join(File.dirname(__FILE__), "stopwords.txt"), "r") do |f|
+    File.open(File.join(File.dirname(__FILE__), "stopwords/en.txt"), "r") do |f|
       f.each_line do |line|
         stopwords.add line.strip
       end
