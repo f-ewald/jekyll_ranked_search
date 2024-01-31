@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "jekyll_ranked_search"
-  s.version     = "0.0.6"
+  s.version     = "0.0.7"
   s.summary     = "TF-IDF offline search for Jekyll posts"
   s.description = <<DESCRIPTION
 A webcomponent based search box that provides search functionality for your Jekyll blog.
