@@ -1,12 +1,16 @@
 Gem::Specification.new do |s|
   s.name        = "jekyll_ranked_search"
-  s.version     = "0.0.5"
+  s.version     = "0.0.6"
   s.summary     = "TF-IDF offline search for Jekyll posts"
-  s.description = "Offline search plugin for Jekyll posts using TF-IDF"
+  s.description = <<DESCRIPTION
+A webcomponent based search box that provides search functionality for your Jekyll blog.
+
+If you have any feedback or suggestions for improvement, please open an issue on Github.
+DESCRIPTION
   s.authors     = ["Friedrich Ewald"]
   s.email       = "freddiemailster@gmail.com"
   s.files       = [
-    "lib/stopwords.txt",
+    "lib/stopwords/en.txt",
     "lib/search.json",
     "lib/search.js",
     "lib/jekyll_ranked_search.rb"
