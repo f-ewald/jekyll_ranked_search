@@ -65,7 +65,7 @@ module JekyllRankedSearch
         n_words = 40
         splitted_content = content.split(" ")
         word_count = splitted_content.length
-        content = splitted_content[..n_words].join(" ")  # The first n words of the post
+        content = splitted_content.first(n_words).join(" ")  # The first n words of the post
         if word_count > n_words
           content += "..."
         end

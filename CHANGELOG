@@ -3,6 +3,10 @@
 * Fix build crash on sites with a single post
 * Ignore query words that are not in the index (e.g. stopwords) and strip punctuation from queries
 * Strip Liquid tags from indexed content and excerpts
+* Search on every input change (including paste) and support keyboard navigation (↑/↓, Enter, Escape)
+* Handle search index load failures and queries typed before the index has loaded
+* Stop overriding the native `focus()` method and remove the document click listener on disconnect
+* Limit excerpts to exactly 40 words
 * Namespace Ruby classes under `JekyllRankedSearch`
 * Declare `jekyll` as a runtime dependency
 * Add test suite

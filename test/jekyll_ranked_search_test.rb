@@ -44,6 +44,7 @@ class JekyllRankedSearchTest < Minitest::Test
       refute docs[0]["text"].end_with?("..."), "short posts must not be truncated"
       assert_equal "", docs[1]["text"]
       assert docs[2]["text"].end_with?("..."), "long posts must be truncated"
+      assert_equal 40, docs[2]["text"].delete_suffix("...").split.length
 
       refute_includes bow, "", "empty tokens must not be indexed"
       refute_includes bow, "and", "stopwords must not be indexed"
