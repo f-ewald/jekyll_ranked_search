@@ -21,8 +21,12 @@ GEM
       http_parser.rb (~> 0)
     eventmachine (1.2.7)
     ffi (1.17.4-arm64-darwin)
+    ffi (1.17.4-x86_64-linux-gnu)
     forwardable-extended (2.6.0)
     google-protobuf (4.36.2-arm64-darwin)
+      bigdecimal
+      rake (~> 13.3)
+    google-protobuf (4.36.2-x86_64-linux-gnu)
       bigdecimal
       rake (~> 13.3)
     http_parser.rb (0.8.1)
@@ -77,6 +81,8 @@ GEM
     safe_yaml (1.0.5)
     sass-embedded (1.108.2-arm64-darwin)
       google-protobuf (~> 4.31)
+    sass-embedded (1.108.2-x86_64-linux-gnu)
+      google-protobuf (~> 4.31)
     simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -91,6 +97,7 @@ GEM
 PLATFORMS
   arm64-darwin-22
   arm64-darwin-24
+  x86_64-linux
 
 DEPENDENCIES
   jekyll_ranked_search!

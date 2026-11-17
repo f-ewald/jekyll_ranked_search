@@ -9,6 +9,7 @@
 * Limit excerpts to exactly 40 words
 * Namespace Ruby classes under `JekyllRankedSearch`
 * Declare `jekyll` as a runtime dependency
+* Require Ruby 3.2 or newer
 * Add test suite
 
 # 0.0.7
