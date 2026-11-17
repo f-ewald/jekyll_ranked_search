@@ -1,4 +1,4 @@
-# Unreleased
+# 0.1.0
 * Fix TF-IDF scoring: document frequency, non-negative IDF, and a bounded 20% recency boost
 * Fix build crash on sites with a single post
 * Ignore query words that are not in the index (e.g. stopwords) and strip punctuation from queries
