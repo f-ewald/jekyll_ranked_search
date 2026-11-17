@@ -1,3 +1,18 @@
+# Unreleased
+* Fix TF-IDF scoring: document frequency, non-negative IDF, and a bounded 20% recency boost
+* Fix build crash on sites with a single post
+* Ignore query words that are not in the index (e.g. stopwords) and strip punctuation from queries
+* Strip Liquid tags from indexed content and excerpts
+* Namespace Ruby classes under `JekyllRankedSearch`
+* Declare `jekyll` as a runtime dependency
+* Add test suite
+
+# 0.0.7
+* Remove special characters before removing stopwords
+
+# 0.0.6
+* Move English stopwords to `lib/stopwords/en.txt`
+
 # 0.0.5
 * Add search icon on left side
 

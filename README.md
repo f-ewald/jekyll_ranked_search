@@ -1,6 +1,6 @@
 # Jekyll offline search plugin
 
-A plugin for Jekyll to search for all posts and rank them by relevance. Relevance is determined by TF-IDF. Newer posts relevance is boosted exponentally so that they show up ealier in the results.
+A plugin for Jekyll to search for all posts and rank them by relevance. Relevance is determined by TF-IDF. Newer posts relevance is boosted exponentially so that they show up earlier in the results.
 
 ## Installation
 
@@ -31,7 +31,7 @@ In your template, add the following lines:
   lazy="true"></search-box>
 ```
 
-You only need to add the `<script>` tag once. It is recommended to add it to the header. The search box will fill 100% of the width of its parent container. The `<search-box>` tag is a [WebComponent](-97https://www.webcomponents.org) that uses [Lit](https://lit.dev) and follows W3C standards and are available in all [modern browswers](https://caniuse.com/custom-elementsv1).
+You only need to add the `<script>` tag once. It is recommended to add it to the header. The search box will fill 100% of the width of its parent container. The `<search-box>` tag is a [WebComponent](https://www.webcomponents.org) that uses [Lit](https://lit.dev) and follows W3C standards and is available in all [modern browsers](https://caniuse.com/custom-elementsv1).
 
 ## Configuration
 

@@ -18,6 +18,7 @@ DESCRIPTION
   s.homepage    =
     "https://github.com/f-ewald/jekyll_ranked_search"
   s.license       = "MIT"
+  s.add_runtime_dependency "jekyll", ">= 3.8", "< 5.0"
   s.add_runtime_dependency "redcarpet", "~> 3.6"
   s.required_ruby_version = ">= 2.5.0"
 end

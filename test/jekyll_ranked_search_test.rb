@@ -8,13 +8,13 @@ class JekyllRankedSearchTest < Minitest::Test
   LONG_TEXT = (1..50).map { |i| "word#{i}" }.join(" ")
 
   POSTS = {
-    "2023-01-01-old.md" => "Learn [docker](https://example.com/secret) containers containers.\n",
+    "2023-01-01-old.md" => "Learn [docker](https://example.com/secret) containers containers. {{ page.title }}{% assign x = 1 %}\n",
     "2023-03-01-empty.md" => "",
     "2023-06-01-new.md" => "Ruby and docker.\n\n#{LONG_TEXT}\n",
   }.freeze
 
   def setup
-    @converter = TfidfConverter.new
+    @converter = JekyllRankedSearch::TfidfConverter.new
   end
 
   def build_site
@@ -39,6 +39,8 @@ class JekyllRankedSearchTest < Minitest::Test
 
       assert_equal ["Post 0", "Post 1", "Post 2"], docs.map { |d| d["title"] }
       refute_includes docs[0]["text"], "example.com", "links must be stripped"
+      refute_match(/[{}%]/, docs[0]["text"], "Liquid markup must be stripped")
+      refute_includes bow, "pagetitle", "Liquid markup must not be indexed"
       refute docs[0]["text"].end_with?("..."), "short posts must not be truncated"
       assert_equal "", docs[1]["text"]
       assert docs[2]["text"].end_with?("..."), "long posts must be truncated"
