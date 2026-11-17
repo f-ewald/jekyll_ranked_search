@@ -57,3 +57,20 @@ Example:
 The following values can be set in the `_config.yml` file in the Jekyll folder.
 
 *Currently none*
+
+## Development
+
+Run the test suite (enforces 100% line and branch coverage):
+
+```shell
+bundle install
+bundle exec rake test
+```
+
+### Releasing
+
+Releases are published to RubyGems by the `Release` GitHub Actions workflow via [trusted publishing](https://guides.rubygems.org/trusted-publishing/).
+
+1. Bump `s.version` in `jekyll-ranked-search.gemspec` and move the `Unreleased` entries in `CHANGELOG` under the new version.
+2. Commit and push to `main`.
+3. Tag the commit and push the tag, e.g. `git tag v0.0.8 && git push origin v0.0.8`. The workflow fails if the tag does not match the gemspec version.
