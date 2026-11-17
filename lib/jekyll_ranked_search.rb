@@ -77,7 +77,6 @@ class TfidfConverter < Jekyll::Generator
         text: content,
       })
 
-      token_seen = false
       tokenized.each do |word|
         if !bow.include?(word)
           bow[word] = bow.length
@@ -86,13 +85,15 @@ class TfidfConverter < Jekyll::Generator
         # The key is the term_id which is calculated in the step before.
         word2doc[bow[word]] ||= Set.new
         word2doc[bow[word]] << idx
-        
-        tf["#{bow[word]},#{idx}"] ||= 0
-        tf["#{bow[word]},#{idx}"] += 1
-        if !token_seen
+
+        key = "#{bow[word]},#{idx}"
+        if !tf.include?(key)
+          # First occurrence of this term in this document
+          tf[key] = 0
           df[bow[word]] ||= 0
           df[bow[word]] += 1
         end
+        tf[key] += 1
       end
     end
 
@@ -106,20 +107,27 @@ class TfidfConverter < Jekyll::Generator
     site.data['word2doc'] = word2doc.to_json
     site.data['bow'] = bow.to_json
 
-    # Calculate tf-idf for each document in the shape term_id,doc_id = tfidf
+    site.data['tfidf'] = self.calculate_tfidf(tf, df, total_docs).to_json
+  end
+
+  # Calculate TF-IDF scores, boosting newer documents by up to 20%.
+  # Documents are expected in chronological order (oldest first).
+  # @param [Hash{String => Integer}] tf term frequency keyed by "term_id,doc_id"
+  # @param [Hash{Integer => Integer}] df number of documents containing each term_id
+  # @param [Integer] total_docs total number of documents
+  # @return [Hash{String => Float}] TF-IDF scores keyed by "term_id,doc_id"
+  def calculate_tfidf(tf, df, total_docs)
     tfidf = {}
     tf.each do |idx, freq|
       token_idx, doc_idx = idx.split(',').map { |i| i.to_i }
-      _idf = Math.log(total_docs / df[token_idx] + 0.00001)
+      idf = Math.log(total_docs.to_f / df[token_idx])
 
-      # Exponential decay over time (boost newer posts)
-      boost = 1.2**doc_idx/(total_docs/2)
+      # Exponential growth from 1.0 (oldest) to 1.2 (newest)
+      boost = total_docs > 1 ? 1.2**(doc_idx.to_f / (total_docs - 1)) : 1.0
 
-      # Calculate TF-IDF and boost newer posts by up to 20%
-      tfidf[idx] = (freq * _idf * boost).round(4)
+      tfidf[idx] = (freq * idf * boost).round(4)
     end
-    
-    site.data['tfidf'] = tfidf.to_json
+    tfidf
   end
 
   # Tokenize document by removing special characters and splitting
@@ -138,8 +146,8 @@ class TfidfConverter < Jekyll::Generator
     # Remove special characters
     splitted_doc.map! { |word| word.gsub(/[^a-z0-9_\/\-\s]/i, '') }
 
-    # Remove stopwords in place
-    splitted_doc.delete_if { |t| @stopwords.include? t }
+    # Remove empty tokens and stopwords in place
+    splitted_doc.delete_if { |t| t.empty? || @stopwords.include?(t) }
 
     splitted_doc
   end
